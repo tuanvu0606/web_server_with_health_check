@@ -151,7 +151,7 @@ Function create_stack(){
     get_ec2_instance_ip_address
 
     while ($true) {
-        Write-Output "Press [CTRL+C] to stop.."
+        Write-Output "Press your break key to stop.."
         do_health_check
         Start-Sleep -Seconds 1  
     } 
