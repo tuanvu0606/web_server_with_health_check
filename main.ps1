@@ -150,7 +150,7 @@ Function create_stack(){
 
     get_ec2_instance_ip_address
 
-    while ($true) {
+    while ([Console]::ReadKey($true)) {
         Write-Output "Press your break key to stop.."
         do_health_check
         Start-Sleep -Seconds 1  
