@@ -1,5 +1,8 @@
 
 health_check() {
+
+    # Use Curl for health check, and results are based on status code
+
     HEADERS=`curl -Is --connect-timeout 1 $1`
     CURLSTATUS=$?
 

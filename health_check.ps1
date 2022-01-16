@@ -4,6 +4,9 @@ param (
 )
 
 Function health_check {
+
+    # Use Curl for health check, and results are based on status code
+
     try {
         $Env:Curl_Results = (Invoke-WebRequest -Uri $server_address -UseBasicParsing | Select-Object -Expand StatusCode)
 

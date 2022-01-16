@@ -1,7 +1,9 @@
 #!/bin/bash
-# declare variable
 
 declare_variable(){
+    
+    # declare all variables
+
     export TF_VAR_challenge_terraform_state_s3_bucket_name=challenge-terraform-state-s3-bucket
     export TF_VAR_challenge_terraform_state_s3_bucket_region=ap-southeast-1
     export TF_VAR_challenge_terraform_state_dynamo_db_table_name=challenge-terraform-state-dynamodb
@@ -10,8 +12,10 @@ declare_variable(){
     export INSTANCE_USER=""
 }
 
-# install aws cli
 install_aws_cli(){
+
+    # Check if AWS Cli is installed, if yes then move forward, ignore this
+
     if [ ! $(which aws) ]; then
         curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
         unzip awscliv2.zip
@@ -26,6 +30,9 @@ install_aws_cli(){
 # install terraform
 
 install_terraform(){
+
+    # Check if Terraform is installed, if yes then move forward, ignore this
+
     if [ ! $(which terraform) ]; then
         # clean previous terraform version
         rm -rf /usr/local/bin/terraform
@@ -46,8 +53,6 @@ install_terraform(){
     fi
 }
 
-#configure aws credentials
-
 create_s3_bucket_for_terraform_state(){
     # create s3 bucket for terraform state
     aws \
@@ -61,6 +66,9 @@ create_s3_bucket_for_terraform_state(){
 }
 
 create_dynamo_db_for_terraform_state_lock(){
+
+    # create dynamo db for terraform state locks
+
     aws dynamodb create-table \
     --table-name "${TF_VAR_challenge_terraform_state_dynamo_db_table_name}" \
     --attribute-definitions AttributeName=LockID,AttributeType=S \
@@ -70,6 +78,9 @@ create_dynamo_db_for_terraform_state_lock(){
 # ---------------------------------------------- Terraform ----------------------------------------------------
 
 create_terraform_ec2_server(){
+
+    # automatically provision the server by Terraform
+
     cd ./terraform
     terraform init
     terraform apply -auto-approve
@@ -82,6 +93,9 @@ create_terraform_ec2_server(){
 }
 
 remove_terraform_ec2_server(){
+
+    # automatically removes the server by Terraform
+
     cd ./terraform
     terraform destroy -auto-approve
     cd ..
@@ -90,6 +104,9 @@ remove_terraform_ec2_server(){
 
 
 get_ec2_instance_ip_address (){
+
+    # query ec2 server public IP address
+
     cd ./terraform
     INSTANCE_IP_ADDRESS=$(terraform output instance_ip_addr | sed 's/"//g' )
     USER=ubuntu
@@ -97,6 +114,8 @@ get_ec2_instance_ip_address (){
 }
 
 create_apache_web_server (){
+
+    # Install apache server and fix the content
 
     get_ec2_instance_ip_address
 
@@ -118,8 +137,6 @@ create_stack(){
     install_aws_cli
 
     install_terraform
-
-    # install_ansible_linux
 
     create_s3_bucket_for_terraform_state
 
