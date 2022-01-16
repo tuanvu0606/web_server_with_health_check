@@ -1,6 +1,6 @@
 # web_server_with_health_check
 
-## Installation
+## Set up AWS credentials
 
 First, set up your AWS credentials by the following commands, use the commands base on your system
 
