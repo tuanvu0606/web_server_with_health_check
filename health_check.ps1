@@ -1,23 +1,29 @@
+param (    
+    # create or destroy
+    [string]$server_address = ''
+)
 
 Function health_check {
-    HEADERS=`curl -Is --connect-timeout 1 $1`
-    CURLSTATUS=$?
+    try {
+        $Env:Curl_Results = (Invoke-WebRequest -Uri $server_address -UseBasicParsing | Select-Object -Expand StatusCode)
 
-    # Check for timeout
-    if [ $CURLSTATUS -eq 28 ]
-        then
-            echo "NOT ONLINE"
-    else
-        # Check HTTP status code
-        HTTPSTATUS=`echo $HEADERS | grep HTTP | cut -d' ' -f2`
-        if [ $HTTPSTATUS -eq 200 ]; then
-            echo "CONNECTED"
-        elif [ $HTTPSTATUS -eq 301 ]; then
-            echo "MOVED PERMANENTLY"
-        elif [ $HTTPSTATUS -eq 404 ]; then 
-            echo "NOT FOUND"
-        elif [ $HTTPSTATUS -le 399 ]; then
-            echo "ERROR"
-        fi
-    fi
+        # Check for timeout
+        if ($Env:Curl_Results -eq "200"){
+            Write-Output "Connected"
+        } elseif (404){
+            Write-Output "Not Found"
+        }
+        else {
+            Write-Output "This is the status code"
+            Write-Output $Env:Curl_Results
+        }
+    } catch [System.Net.WebException] {
+        "Error WebException"
+    } 
+    catch {
+        Write-Output "Unknown Error happens"
+    }
+    
 }
+
+health_check

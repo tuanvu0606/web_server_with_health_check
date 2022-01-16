@@ -6,9 +6,9 @@ Foobar is a Python library for dealing with word pluralization.
 
 ## Installation
 
-### Linux (Bash)
+First, set up your AWS credentials by the following commands, use the commands base on your system
 
-First, set up your AWS credentials by the following commands
+### Linux either Redhat or Debian distributions (Bash)
 
 ```bash
 export AWS_SECRET_DEFAULT_KEY_ID=""
@@ -22,8 +22,8 @@ touch ~/.aws/credentials
 > ~/.aws/credentials
 cat <<EOT >> ~/.aws/credentials
 [default]
-aws_access_key_id="Your Key"
-aws_secret_access_key="A1vaPMHrz1b6TYorOTVeMR137pIFPo9r3mI0Lgsy"
+aws_access_key_id="Your Key ID"
+aws_secret_access_key="Your Key""
 EOT
 
 touch  ~/.aws/config
@@ -36,6 +36,14 @@ EOT
 ```
 
 ### Windows (Powershell)
+```
+$Env:AWS_ACCESS_KEY_ID="Your Key ID"
+$Env:AWS_SECRET_ACCESS_KEY="Your Key"
+$Env:AWS_DEFAULT_REGION="Region"
+```
+
+or try this if issue happens
+
 ```
 $AwsCredentials = @'
 [default]
@@ -55,9 +63,9 @@ $AwsConfig -f 'string' | Out-File $env:USERPROFILE\.aws\config
 
 ## Usage
 
-### Linux
-
 Run the commands below to create or destroy the application stack, if you create it, it will automatically do health check
+
+### Linux (Bash)
 
 #### create
 
@@ -74,6 +82,19 @@ chmod 0770 ./main.sh
 ```
 
 ### Windows (Powershell)
+
+Run the commands below to create or destroy the application stack, if you create it, it will automatically do health check
+#### create
+
+```
+./main.ps1 -command create
+```
+
+#### destroy
+```
+./main.ps1 -command destroy
+
+```
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.

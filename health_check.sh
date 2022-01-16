@@ -6,7 +6,7 @@ health_check() {
     # Check for timeout
     if [ $CURLSTATUS -eq 28 ]
         then
-            echo "NOT ONLINE"
+            echo "TIMEOUT"
     else
         # Check HTTP status code
         HTTPSTATUS=`echo $HEADERS | grep HTTP | cut -d' ' -f2`
@@ -17,7 +17,11 @@ health_check() {
         elif [ $HTTPSTATUS -eq 404 ]; then 
             echo "NOT FOUND"
         elif [ $HTTPSTATUS -le 399 ]; then
-            echo "ERROR"
+            echo "ERROR CODE"
+            echo $HTTPSTATUS
+        else
+            echo "RECEIVE THIS CODE"
+            echo $HTTPSTATUS
         fi
     fi
 }

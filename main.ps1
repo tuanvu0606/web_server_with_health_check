@@ -125,6 +125,19 @@ Function create_apache_web_server {
     "
 }
 
+Function do_health_check(){
+
+    get_ec2_instance_ip_address
+
+    .\health_check.ps1 -server_address $Env:INSTANCE_IP_ADDRESS
+}
+
+Function remove_terraform_ec2_server{
+    cd ./terraform
+    terraform destroy -auto-approve
+    cd ..
+}
+
 Function create_stack(){
 
     create_s3_bucket_for_terraform_state
@@ -136,12 +149,8 @@ Function create_stack(){
     create_apache_web_server
 
     get_ec2_instance_ip_address
-}
 
-Function remove_terraform_ec2_server{
-    cd ./terraform
-    terraform destroy -auto-approve
-    cd ..
+    do_health_check
 }
 
 Function destroy_stack {
