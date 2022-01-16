@@ -127,8 +127,3 @@ Run the commands below to create or destroy the application stack, if you create
 ```
 .\main.ps1 -command destroy
 ```
-
-## Contributing
-Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
-
-Please make sure to update tests as appropriate.
