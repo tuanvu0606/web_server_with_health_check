@@ -2,9 +2,7 @@ param (
     # create or destroy
     [string]$command = 'nope'
 )
-# $ErrorActionPreference= 'silentlycontinue'
 # install aws cli
-
 
 Function declare_variable{
     $Env:TF_VAR_challenge_terraform_state_s3_bucket_name = "challenge-terraform-state-s3-bucket"
@@ -16,9 +14,9 @@ Function declare_variable{
 }
 
 Function install_aws_cli{
-    # Param ($Name, $Runs, $Outs)
-    # $Avg = [int]($Runs / $Outs*100)/100
-    # Write-Output "$Name's Average = $Avg, $Runs, $Outs"
+
+    # Check if AWS Cli is installed, if yes then move forward
+
     try {
         Get-Command aws | Select-Object -ExpandProperty Definition
         Write-Output "aws cli is already installed"
@@ -37,6 +35,9 @@ Function install_aws_cli{
 
 # install Terraform powershell
 Function install_terraform{
+
+    # Check if Terraform is installed, if yes then move forward
+
     try {
         Get-Command terraform | Select-Object -ExpandProperty Definition
         Write-Output "terraform is already installed"
@@ -77,6 +78,9 @@ Function create_dynamo_db_for_terraform_state_lock{
 # ---------------------------------------------- Terraform ----------------------------------------------------
 
 Function create_terraform_ec2_server{
+
+    # automatically provision the server by Terraform
+
     cd ./terraform
     terraform init
     terraform apply -auto-approve
@@ -95,12 +99,18 @@ Function create_terraform_ec2_server{
 }
 
 Function remove_terraform_ec2_server{
+
+    # automatically removes the server by Terraform
+
     cd ./terraform
     terraform destroy -auto-approve
     cd ..
 }
 
 Function get_ec2_instance_ip_address{
+
+    # query ec2 server public IP address
+
     cd ./terraform
     $Env:INSTANCE_IP_ADDRESS=(terraform output instance_ip_addr)
     $Env:INSTANCE_IP_ADDRESS=$Env:INSTANCE_IP_ADDRESS.Trim('"')  
@@ -110,13 +120,15 @@ Function get_ec2_instance_ip_address{
 
 Function create_apache_web_server {
 
+    # Install apache server and fix the content
+
     get_ec2_instance_ip_address
 
     $path = "$env:USERPROFILE\.ssh\challenge-ec2-private-key.pem"
 
     (Get-Content $path -Raw).Replace("`r`n","`n") | Set-Content $path -Force
 
-    ssh -i "$env:USERPROFILE\.ssh\challenge-ec2-private-key.pem" -o "StrictHostKeyChecking no"  $Env:USER@$Env:INSTANCE_IP_ADDRESS "    
+    ssh -i "$env:USERPROFILE\.ssh\challenge-ec2-private-key.pem" -o "StrictHostKeyChecking no"  ubuntu@$Env:INSTANCE_IP_ADDRESS "    
         sudo apt-get update -y && \
         sudo apt-get install -y apache2  && \
         sudo systemctl start apache2.service && \
