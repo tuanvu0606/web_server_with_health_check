@@ -116,36 +116,16 @@ Function create_apache_web_server {
 
     (Get-Content $path -Raw).Replace("`r`n","`n") | Set-Content $path -Force
 
-    ssh -i "$env:USERPROFILE\.ssh\challenge-ec2-private-key.pem" ubuntu@$Env:INSTANCE_IP_ADDRESS -o "StrictHostKeyChecking no"
-
     ssh -i "$env:USERPROFILE\.ssh\challenge-ec2-private-key.pem" -o "StrictHostKeyChecking no"  ubuntu@$Env:INSTANCE_IP_ADDRESS "    
         sudo apt-get update -y
         sudo apt-get install -y apache2
         sudo systemctl start apache2.service
-        sudo systemctl enable apache2.service
-        
+        sudo systemctl enable apache2.service        
         echo 'Hello World'  | sudo tee -a /var/www/html/index.html
     "
-        
-    
-
-    # $nopasswd = new-object System.Security.SecureString
-    # $Crendential= New-Object System.Management.Automation.PSCredential ("ubuntu", $nopasswd)
-    # New-SSHSession –ComputerName [instance_ip_fqdn] -KeyFile "$env:USERPROFILE/.ssh/challenge-ec2-private-key.pem" -Credential $Crendential
-    # Get-Content .\test.txt | Set-Content -Encoding utf8 test-utf8.txt
-
-    
-    # (Get-Content $path -Raw).Replace("`r`n","`n") | Set-Content $path -Force
 }
 
 Function create_stack(){
-    declare_variable
-
-    install_aws_cli
-
-    install_terraform
-
-    # install_ansible_linux
 
     create_s3_bucket_for_terraform_state
 
@@ -155,25 +135,43 @@ Function create_stack(){
 
     create_apache_web_server
 
-    source ./health_check.sh
-
     get_ec2_instance_ip_address
-
-    while true
-    do  
-        health_check ${INSTANCE_IP_ADDRESS}
-        echo "Press [CTRL+C] to stop.."
-        sleep 1
-    done
-
 }
+
+Function remove_terraform_ec2_server{
+    cd ./terraform
+    terraform destroy -auto-approve
+    cd ..
+}
+
+Function destroy_stack {
+   remove_terraform_ec2_server
+
+    aws `
+        s3api `
+        delete-bucket `
+            --bucket $Env:TF_VAR_challenge_terraform_state_s3_bucket_name `
+            --region $Env:TF_VAR_challenge_terraform_state_s3_bucket_region
+
+    aws dynamodb delete-table `
+        --table-name $Env:TF_VAR_challenge_terraform_state_dynamo_db_table_name 
+}
+
+declare_variable
+
+install_aws_cli
+
+install_terraform
+
 
 if ($command -eq "create") {
     Write-Output "create"
+    create_stack
 } elseif ($command -eq "destroy") {
     Write-Output "destroy"
+    destroy_stack
 } else {
-    Write-Output "adasdsad"
+    Write-Output "Please choose to destroy or create"
 }
 
 # Install-AWS-Cli

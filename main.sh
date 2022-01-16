@@ -1,5 +1,4 @@
 #!/bin/bash
-
 # declare variable
 
 declare_variable(){

@@ -6,7 +6,7 @@ Foobar is a Python library for dealing with word pluralization.
 
 ## Installation
 
-### Linux ()
+### Linux (Bash)
 
 First, set up your AWS credentials by the following commands
 
@@ -35,7 +35,7 @@ output="Your Format"
 EOT
 ```
 
-### Powershell
+### Windows (Powershell)
 ```
 $AwsCredentials = @'
 [default]
@@ -55,18 +55,25 @@ $AwsConfig -f 'string' | Out-File $env:USERPROFILE\.aws\config
 
 ## Usage
 
-```python
-import foobar
+### Linux
 
-# returns 'words'
-foobar.pluralize('word')
+Run the commands below to create or destroy the application stack, if you create it, it will automatically do health check
 
-# returns 'geese'
-foobar.pluralize('goose')
+#### create
 
-# returns 'phenomenon'
-foobar.singularize('phenomena')
 ```
+chmod 0770 ./main.sh
+./main.sh create
+```
+
+#### destroy
+```
+chmod 0770 ./main.sh
+./main.sh destroy
+
+```
+
+### Windows (Powershell)
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
