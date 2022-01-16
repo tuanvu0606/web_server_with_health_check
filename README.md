@@ -1,9 +1,5 @@
 # web_server_with_health_check
 
-# Foobar
-
-Foobar is a Python library for dealing with word pluralization.
-
 ## Installation
 
 First, set up your AWS credentials by the following commands, use the commands base on your system

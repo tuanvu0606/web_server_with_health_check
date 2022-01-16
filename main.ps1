@@ -117,10 +117,10 @@ Function create_apache_web_server {
     (Get-Content $path -Raw).Replace("`r`n","`n") | Set-Content $path -Force
 
     ssh -i "$env:USERPROFILE\.ssh\challenge-ec2-private-key.pem" -o "StrictHostKeyChecking no"  $Env:USER@$Env:INSTANCE_IP_ADDRESS "    
-        sudo apt-get update -y
-        sudo apt-get install -y apache2
-        sudo systemctl start apache2.service
-        sudo systemctl enable apache2.service        
+        sudo apt-get update -y && \
+        sudo apt-get install -y apache2  && \
+        sudo systemctl start apache2.service && \
+        sudo systemctl enable apache2.service && \
         echo 'Hello World'  | sudo tee -a /var/www/html/index.html
     "
 }
