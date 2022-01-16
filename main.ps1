@@ -104,7 +104,7 @@ Function get_ec2_instance_ip_address{
     cd ./terraform
     $Env:INSTANCE_IP_ADDRESS=(terraform output instance_ip_addr)
     $Env:INSTANCE_IP_ADDRESS=$Env:INSTANCE_IP_ADDRESS.Trim('"')  
-    $Env:USER=ubuntu
+    $Env:USER="ubuntu"
     cd ..
 }
 
