@@ -150,7 +150,13 @@ Function create_stack(){
 
     get_ec2_instance_ip_address
 
-    do_health_check
+    while ($true) {
+        Write-Output "Press [CTRL+C] to stop.."
+        do_health_check
+        Start-Sleep -Seconds 1  
+    } 
+
+    
 }
 
 Function destroy_stack {
@@ -182,7 +188,3 @@ if ($command -eq "create") {
 } else {
     Write-Output "Please choose to destroy or create"
 }
-
-# Install-AWS-Cli
-
-# Install-Terraform-Powershell

@@ -57,6 +57,9 @@ region="Your Region"
 output="Your Format"
 '@
 
+New-Item -Path "$env:USERPROFILE\" -Name ".aws" -ItemType "directory"
+New-Item -Path "$env:USERPROFILE\.aws\" -Name "credentials" -ItemType "file"
+New-Item -Path "$env:USERPROFILE\.aws\" -Name "config" -ItemType "file"
 $AwsCredentials -f 'string' | Out-File $env:USERPROFILE\.aws\credentials
 $AwsConfig -f 'string' | Out-File $env:USERPROFILE\.aws\config
 ```
@@ -87,12 +90,12 @@ Run the commands below to create or destroy the application stack, if you create
 #### create
 
 ```
-./main.ps1 -command create
+.\main.ps1 -command create
 ```
 
 #### destroy
 ```
-./main.ps1 -command destroy
+.\main.ps1 -command destroy
 
 ```
 
