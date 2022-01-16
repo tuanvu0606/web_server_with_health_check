@@ -77,7 +77,6 @@ chmod 0770 ./main.sh
 ```
 chmod 0770 ./main.sh
 ./main.sh destroy
-
 ```
 
 ### Windows (Powershell)
@@ -92,7 +91,6 @@ Run the commands below to create or destroy the application stack, if you create
 #### destroy
 ```
 .\main.ps1 -command destroy
-
 ```
 
 ## Contributing
