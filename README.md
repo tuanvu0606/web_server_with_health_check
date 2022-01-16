@@ -1,8 +1,47 @@
 # web_server_with_health_check
 
+## Install Git
+
+### For Linux Debian and Ubuntu
+
+```
+## Update packages and Upgrade system
+sudo apt-get update -y
+
+## Git ##
+echo '###Installing Git..'
+sudo apt-get install git -y
+```
+
+### For Linux Redhat
+```
+yum update
+yum install git 
+``` 
+
+### For Powershell
+Get-ExecutionPolicy
+Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned -Force
+Install-Module posh-git -Scope CurrentUser -Force
+Import-Module posh-git
+Add-PoshGitToProfile -AllHosts
+
+## Prequisite
+You need to have git installed on your PC, preferbably version 2.17.1
+If you use Powershell, this works best on version 5.1.19041.1320
+If you use Linux Bash, it works best on Ubuntu 18.04.5 LTS
+
+## Clone repo
+
+Please clone repo by this command:
+
+```
+git clone https://github.com/tuanvu0606/web_server_with_health_check.git
+```
+
 ## Set up AWS credentials
 
-First, set up your AWS credentials by the following commands, use the commands base on your system
+Set up your AWS credentials by the following commands, use the commands base on your system
 
 ### Linux either Redhat or Debian distributions (Bash)
 
