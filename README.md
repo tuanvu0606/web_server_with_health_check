@@ -5,10 +5,7 @@
 ### For Linux Debian and Ubuntu
 
 ```
-# Update packages and Upgrade system
 sudo apt-get update -y
-
-#Installing Git..
 sudo apt-get install git -y
 ```
 
