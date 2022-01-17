@@ -16,11 +16,13 @@ yum install git
 ``` 
 
 ### For Powershell
+```powershell
 Get-ExecutionPolicy
 Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned -Force
 Install-Module posh-git -Scope CurrentUser -Force
 Import-Module posh-git
 Add-PoshGitToProfile -AllHosts
+```
 
 ## Prequisite
 You need to have git installed on your PC, preferbably version 2.17.1
