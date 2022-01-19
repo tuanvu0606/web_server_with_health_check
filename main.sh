@@ -87,7 +87,7 @@ create_terraform_ec2_server(){
     mkdir ~/.ssh
     touch ~/.ssh/challenge-ec2-private-key.pem
     > ~/.ssh/challenge-ec2-private-key.pem
-    terraform output tls_private_key_pem_content > ~/.ssh/challenge-ec2-private-key.pem
+    terraform output challenge_web_server_tls_private_key_pem_content > ~/.ssh/challenge-ec2-private-key.pem
     chmod 0600 ~/.ssh/challenge-ec2-private-key.pem
     cd ..
 }
@@ -108,7 +108,7 @@ get_ec2_instance_ip_address (){
     # query ec2 server public IP address
 
     cd ./terraform
-    INSTANCE_IP_ADDRESS=$(terraform output instance_ip_addr | sed 's/"//g' )
+    INSTANCE_IP_ADDRESS=$(terraform output challenge_web_server_instance_ip_addr | sed 's/"//g' )
     USER=ubuntu
     cd ..
 }
