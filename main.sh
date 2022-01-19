@@ -164,14 +164,14 @@ destroy_stack(){
 
     remove_terraform_ec2_server
 
-    aws \
-        s3api \
-        delete-bucket \
-            --bucket "${TF_VAR_challenge_terraform_state_s3_bucket_name}" \
-            --region "${TF_VAR_challenge_terraform_state_s3_bucket_region}"
+    # aws \
+    #     s3api \
+    #     delete-bucket \
+    #         --bucket "${TF_VAR_challenge_terraform_state_s3_bucket_name}" \
+    #         --region "${TF_VAR_challenge_terraform_state_s3_bucket_region}"
 
-    aws dynamodb delete-table \
-        --table-name "${TF_VAR_challenge_terraform_state_dynamo_db_table_name}" 
+    # aws dynamodb delete-table \
+    #     --table-name "${TF_VAR_challenge_terraform_state_dynamo_db_table_name}" 
 }
 
 main(){
